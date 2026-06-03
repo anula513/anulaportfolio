@@ -31,7 +31,9 @@
 }
 
 .nav-links a:hover {
-  background-color: rgb(255, 122, 217);
+  background-image: linear-gradient(90deg, rgb(76, 200, 246), rgb(235, 219, 227), rgb(221, 16, 146));
+  background-size: 150% 150%;
+  animation: grad 5s linear infinite;
 }
 
 .hero-section {
