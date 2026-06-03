@@ -1,5 +1,7 @@
 .navbar-custom {
-  background-color: rgb(253, 191, 222);
+  background-image: linear-gradient(90deg, rgb(76, 200, 246), rgb(235, 219, 227), rgb(221, 16, 146));
+  background-size: 150% 150%;
+  animation: grad 5s linear infinite;
   padding: 12px 22px;
   width: 100%;
   position: fixed;
@@ -31,9 +33,7 @@
 }
 
 .nav-links a:hover {
-  background-image: linear-gradient(90deg, rgb(76, 200, 246), rgb(235, 219, 227), rgb(221, 16, 146));
-  background-size: 150% 150%;
-  animation: grad 5s linear infinite;
+  background-color: rgb(255, 122, 217);
 }
 
 .hero-section {
