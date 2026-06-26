@@ -35,7 +35,18 @@ const projects = [
     github: "https://github.com/anula513/code-cactus",
     liveDemo: "https://code-cactus.vercel.app/",
   },
+  {
+  id: "launchpad",
+  title: "LaunchPad",
+  tech: "HTML • CSS • JavaScript • Firebase Firestore",
+  description:
+    "A web app built to help students track and organize their college application journey, with real-time data persistence via Firebase Firestore.",
+  github: "https://github.com/anula513/launchpad",
+  liveDemo: "https://anula513.github.io/launchpad/",
+},
 ];
+
+
 
 // ── Carousel ──────────────────────────────────────
 function ProjectCarousel() {
