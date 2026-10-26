@@ -171,11 +171,12 @@ export const projects = [
   },
 ];
 
+// Skills as a stack, top layer first. Each layer builds on the ones below it.
 export const skills = [
-  "Python", "Java", "SQL",
-  "OpenAI API", "LangChain", "LangGraph",
-  "RAG", "Embeddings", "Pinecone",
-  "LLM Evaluation", "PostgreSQL", "Git",
+  { label: "LLM apps", items: ["OpenAI API", "LangChain", "LangGraph", "LLM Evaluation"] },
+  { label: "Retrieval", items: ["RAG", "Embeddings", "Pinecone"] },
+  { label: "Data & tools", items: ["SQL", "PostgreSQL", "Git"] },
+  { label: "Languages", items: ["Python", "Java"] },
 ];
 
 export const getProject = (id) => projects.find((p) => p.id === id);

@@ -177,40 +177,67 @@
   box-shadow: 0 0 0 10px var(--black), 0 0 0 11px var(--line), 0 30px 90px -10px var(--pink-glow);
 }
 
-/* ── Skills ─────────────────────────────────────── */
-.skills-inner {
+/* ── Skills stack ───────────────────────────────── */
+/* Each layer gets pinker toward the top. --level is 4 for the top layer, 1 for the base. */
+.stack {
+  max-width: 880px;
+  margin: 0 auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 56px;
+  gap: 10px;
+}
+
+.layer {
+  --mix: calc(var(--level) * 9%);
+  display: grid;
+  grid-template-columns: 150px 1fr;
   align-items: center;
+  gap: 20px;
+  padding: 18px 22px;
+  border-radius: 18px;
+  border: 1px solid color-mix(in srgb, var(--pink) var(--mix), var(--line));
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--pink) calc(var(--mix) * 0.6), transparent), transparent 70%),
+    var(--surface);
+  /* Each lower layer is slightly wider, so the stack reads like a pyramid */
+  margin: 0 calc(var(--level) * 14px);
+  transition: border-color 0.2s, transform 0.2s;
 }
 
-.skills-image {
-  width: 100%;
-  max-width: 520px;
-  border-radius: 20px;
-  border: 1px solid var(--line);
-}
-
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.skill-card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  padding: 16px 12px;
-  border-radius: 14px;
-  text-align: center;
-  font-weight: 600;
-  transition: border-color 0.15s, color 0.15s;
-}
-
-.skill-card:hover {
+.layer:hover {
   border-color: var(--pink);
-  color: var(--pink-soft);
+  transform: scale(1.01);
+}
+
+.layer-label {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: color-mix(in srgb, var(--pink-soft) calc(var(--level) * 25%), var(--text));
+}
+
+.layer-skills {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tile {
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--black);
+  border: 1px solid var(--line);
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.skill-tile:hover {
+  background: var(--pink);
+  border-color: var(--pink);
+  color: var(--black);
 }
 
 /* ── Projects carousel ──────────────────────────── */
@@ -403,8 +430,7 @@
     padding: 64px 0 80px;
   }
 
-  .hero-inner,
-  .skills-inner {
+  .hero-inner {
     grid-template-columns: 1fr;
   }
 
@@ -434,8 +460,11 @@
     font-size: 0.85rem;
   }
 
-  .skills-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .layer {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 0;
+    padding: 16px;
   }
 
   .project-panel {

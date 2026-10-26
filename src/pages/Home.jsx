@@ -79,19 +79,27 @@ export default function Home() {
       </section>
 
       <section className="section" id="ts">
-        <div className="container skills-inner">
-          <img
-            src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80"
-            alt="Coding"
-            className="skills-image"
-          />
-          <div>
-            <h2 className="section-title">My Skills</h2>
-            <div className="skills-grid">
-              {skills.map((skill) => (
-                <div key={skill} className="skill-card">{skill}</div>
-              ))}
-            </div>
+        <div className="container">
+          <h2 className="section-title center">My Skills</h2>
+          <p className="section-sub center">
+            My AI stack, from the languages at the base to the LLM apps on top.
+          </p>
+          {/* Layers are listed top to bottom; --level drives how pink each one glows */}
+          <div className="stack">
+            {skills.map((layer, i) => (
+              <div
+                key={layer.label}
+                className="layer"
+                style={{ "--level": skills.length - i }}
+              >
+                <div className="layer-label">{layer.label}</div>
+                <ul className="layer-skills">
+                  {layer.items.map((s) => (
+                    <li key={s} className="skill-tile">{s}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
       </section>
