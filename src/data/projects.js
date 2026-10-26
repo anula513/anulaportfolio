@@ -172,10 +172,10 @@ export const projects = [
 ];
 
 export const skills = [
-  "Python", "Java", "JavaScript",
-  "SQL", "PostgreSQL", "React",
-  "OpenAI API", "RAG", "Pinecone",
-  "LLM Evaluation", "Streamlit", "Git",
+  "Python", "Java", "SQL",
+  "OpenAI API", "LangChain", "LangGraph",
+  "RAG", "Embeddings", "Pinecone",
+  "LLM Evaluation", "PostgreSQL", "Git",
 ];
 
 export const getProject = (id) => projects.find((p) => p.id === id);
