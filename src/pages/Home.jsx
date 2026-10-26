@@ -1,9 +1,17 @@
-import { Mail, Linkedin, Github } from "lucide-react";
-import ProjectCard from "../components/ProjectCard";
-import { projects, skillGroups } from "../data/projects";
+import { Link } from "react-router-dom";
+import { ArrowUpRight, Github, Linkedin } from "lucide-react";
+import { ExtractionDemo, StyleCloneVisual, MetricsVisual } from "../components/Visuals";
+import { projects, skillGroups, hasCaseStudy } from "../data/projects";
 
 const aiProjects = projects.filter((p) => p.group === "ai");
 const buildProjects = projects.filter((p) => p.group === "build");
+
+// Each AI project gets its own visual instead of a generic card.
+const visualFor = (p) => {
+  if (p.id === "texting-style-clone") return <StyleCloneVisual />;
+  if (p.metrics) return <MetricsVisual metrics={p.metrics} />;
+  return null;
+};
 
 export default function Home() {
   return (
@@ -12,84 +20,115 @@ export default function Home() {
       <section className="hero">
         <div className="container hero-inner">
           <div className="hero-text">
-            <p className="eyebrow">CS @ Arizona State · Graduating May 2027</p>
-            <h1>
-              Hi, I&apos;m Anula. I build AI systems and <span className="accent">measure</span> whether they work.
-            </h1>
+            <div className="hello">
+              <img src="/me.jpg" alt="" className="avatar" />
+              <span>Anula Dinesh, CS senior at Arizona State</span>
+            </div>
+            <h1>I build AI that shows its receipts.</h1>
             <p className="lede">
-              I&apos;m a senior studying Computer Science, focused on AI engineering: RAG, LLM
-              evaluation, and turning messy real-world problems into tools people can trust.
+              My systems don&apos;t just answer. They point to the exact source, flag what
+              they can&apos;t verify, and get measured against real answer keys. Looking for AI
+              Engineer roles after I graduate in May 2027.
             </p>
             <div className="hero-actions">
-              <a className="btn btn--primary" href="#projects">See my work</a>
-              <a className="btn btn--ghost" href="#contact">Get in touch</a>
+              <a className="btn btn--primary" href="#projects">See projects</a>
+              <a className="btn btn--ghost" href="#contact">Contact me</a>
             </div>
           </div>
-          <img src="/me.jpg" alt="Anula Dinesh" className="hero-photo" />
+          <ExtractionDemo />
         </div>
       </section>
 
-      {/* ── Projects ───────────────────────── */}
+      {/* ── AI projects ────────────────────── */}
       <section className="section" id="projects">
         <div className="container">
-          <div className="section-head">
-            <p className="eyebrow">Selected work</p>
-            <h2>AI projects</h2>
-            <p className="section-sub">
-              Built end to end, with evaluation baked in from day one.
-            </p>
-          </div>
-          <div className="grid grid--featured">
-            {aiProjects.map((p) => (
-              <ProjectCard key={p.id} project={p} featured />
-            ))}
-          </div>
+          <h2 className="section-title">AI projects</h2>
 
-          <div className="section-head section-head--spaced">
-            <h2>Other builds</h2>
-            <p className="section-sub">Web apps, a Chrome extension, and analytics.</p>
-          </div>
-          <div className="grid">
+          {aiProjects.map((p) => (
+            <article key={p.id} className="feature">
+              <div className="feature-text">
+                <div className="title-row">
+                  <h3>{p.title}</h3>
+                  {p.status && <span className="badge">{p.status}</span>}
+                </div>
+                <p className="feature-tagline">{p.tagline}</p>
+                {p.cardPoints && (
+                  <ul className="points">
+                    {p.cardPoints.map((pt) => <li key={pt}>{pt}</li>)}
+                  </ul>
+                )}
+                <p className="tech-line">{p.tech.join(", ")}</p>
+                <div className="actions">
+                  {hasCaseStudy(p) && (
+                    <Link className="btn btn--primary" to={`/projects/${p.id}`}>Read case study</Link>
+                  )}
+                  {p.github && (
+                    <a className="btn btn--ghost" href={p.github} target="_blank" rel="noreferrer">
+                      <Github size={16} aria-hidden="true" /> Code
+                    </a>
+                  )}
+                </div>
+              </div>
+              <div className="feature-visual">{visualFor(p)}</div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Other builds ───────────────────── */}
+      <section className="section section--tight">
+        <div className="container">
+          <h2 className="section-title">Other builds</h2>
+          <ul className="build-list">
             {buildProjects.map((p) => (
-              <ProjectCard key={p.id} project={p} />
+              <li key={p.id} className="build">
+                <div className="build-main">
+                  <div className="title-row">
+                    <h3>{p.title}</h3>
+                    {p.status && <span className="badge">{p.status}</span>}
+                  </div>
+                  <p>{p.tagline}</p>
+                  <p className="tech-line">{p.tech.join(", ")}</p>
+                </div>
+                <div className="build-links">
+                  {hasCaseStudy(p) && <Link to={`/projects/${p.id}`}>Details</Link>}
+                  {p.github && <a href={p.github} target="_blank" rel="noreferrer">Code</a>}
+                  {p.liveDemo && (
+                    <a href={p.liveDemo} target="_blank" rel="noreferrer">
+                      Live demo <ArrowUpRight size={14} aria-hidden="true" />
+                    </a>
+                  )}
+                </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
       {/* ── Skills ─────────────────────────── */}
-      <section className="section section--tint" id="skills">
+      <section className="section section--tight" id="skills">
         <div className="container">
-          <div className="section-head">
-            <p className="eyebrow">Toolkit</p>
-            <h2>Skills</h2>
-          </div>
-          <div className="skills">
+          <h2 className="section-title">Skills</h2>
+          <dl className="skills">
             {skillGroups.map((g) => (
-              <div key={g.label} className="skill-group">
-                <h3>{g.label}</h3>
-                <ul className="chips">
-                  {g.items.map((s) => (
-                    <li key={s} className="chip">{s}</li>
-                  ))}
-                </ul>
+              <div key={g.label} className="skill-row">
+                <dt>{g.label}</dt>
+                <dd>
+                  {g.items.map((s) => <span key={s} className="pill">{s}</span>)}
+                </dd>
               </div>
             ))}
-          </div>
+          </dl>
         </div>
       </section>
 
       {/* ── Contact ────────────────────────── */}
-      <section className="section" id="contact">
-        <div className="container contact">
-          <h2>Let&apos;s connect</h2>
-          <p className="section-sub">
-            I&apos;m looking for AI Engineer roles starting 2027. The fastest way to reach me is email.
-          </p>
-          <div className="contact-links">
-            <a className="btn btn--primary" href="mailto:adinesh5@asu.edu">
-              <Mail size={16} aria-hidden="true" /> adinesh5@asu.edu
-            </a>
+      <section className="section contact" id="contact">
+        <div className="container">
+          <h2 className="contact-title">Let&apos;s talk.</h2>
+          <p className="lede">Email is the fastest way to reach me.</p>
+          <a className="contact-email" href="mailto:adinesh5@asu.edu">adinesh5@asu.edu</a>
+          <div className="actions">
             <a className="btn btn--ghost" href="https://www.linkedin.com/in/anula-dinesh-743140335" target="_blank" rel="noreferrer">
               <Linkedin size={16} aria-hidden="true" /> LinkedIn
             </a>

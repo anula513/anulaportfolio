@@ -1,15 +1,17 @@
-/* Design tokens: change the pink here and it updates everywhere. */
+/* Design tokens: change a color here and it updates everywhere. */
 :root {
-  --pink: #c2187a;         /* accent: buttons, highlights (passes contrast on white) */
-  --pink-hover: #a3125f;
-  --pink-soft: #fdf2f8;    /* tinted section background */
-  --pink-line: #f5d0e4;    /* tinted borders */
-  --ink: #18181b;          /* main text */
-  --muted: #52525b;        /* secondary text */
-  --line: #e7e5e4;         /* neutral borders */
-  --bg: #ffffff;
-  --radius: 14px;
-  --shadow: 0 1px 2px rgb(24 24 27 / 0.04), 0 8px 24px rgb(24 24 27 / 0.06);
+  --black: #000000;
+  --surface: #170b14;      /* plum-black panels */
+  --surface-2: #22101d;
+  --line: #3a1f33;         /* borders on black */
+  --pink: #ff3d9a;         /* hot pink accent */
+  --pink-soft: #ffb8da;    /* light pink for text on dark */
+  --pink-glow: rgb(255 61 154 / 0.18);
+  --text: #f7eef3;
+  --muted: #a8939f;
+  --display: "Bricolage Grotesque", "Instrument Sans", system-ui, sans-serif;
+  --body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: dark;
 }
 
 * {
@@ -23,10 +25,11 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  color: var(--ink);
-  background: var(--bg);
+  font-family: var(--body);
+  font-size: 1.0625rem;
   line-height: 1.6;
+  color: var(--text);
+  background: var(--black);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -40,12 +43,30 @@ img {
 }
 
 h1, h2, h3 {
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-family: var(--display);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+::selection {
+  background: var(--pink);
+  color: var(--black);
 }
 
 :focus-visible {
   outline: 2px solid var(--pink);
   outline-offset: 3px;
   border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.001ms !important;
+  }
 }
