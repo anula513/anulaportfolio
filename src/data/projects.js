@@ -21,6 +21,7 @@ export const projects = [
         text:
           "Teams make decisions in meetings and then lose track of them. This app extracts decisions and action items from meeting transcripts and lets you ask questions across past meetings. Every extracted item carries a quote from the transcript, and the code checks that the quote is really there.",
       },
+      { image: "/meeting-tracker-demo.png", alt: "Meeting Intelligence Tracker app answering \"Who owns the beta launch date?\" with \"Priya owns the beta launch date.\"" },
       {
         heading: "Features",
         list: [
