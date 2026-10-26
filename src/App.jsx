@@ -28,9 +28,6 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/projects/:id" element={<ProjectPage />} />
       </Routes>
-      <footer className="footer">
-        <div className="container">© {new Date().getFullYear()} Anula Dinesh</div>
-      </footer>
     </BrowserRouter>
   );
 }

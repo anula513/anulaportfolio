@@ -1,207 +1,179 @@
-// All project content lives here. Pages and cards read from this file,
-// so adding a project means adding one object, not a new page component.
+// All project content lives here. The home page cards and the project pages
+// both read from this file.
 //
 // Fields:
-//   group: "ai" | "build"  (which section it shows in on the home page)
-//   status: optional badge text, e.g. "In progress"
-//   metrics: optional [{ value, label, note }] shown on the case-study page
-//   sections: optional [{ heading, body, list }] for the case-study page
-//   images: optional [{ src, alt }]
+//   description: text on the home page card
+//   viewPath: set automatically when a project has a page (sections)
+//   page: the project page, as a list of blocks shown top to bottom:
+//         { text } a paragraph, { heading, list } a list, { image, alt } a picture
+//   links: buttons at the bottom of the project page
 
 export const projects = [
   {
     id: "meeting-intelligence-tracker",
-    group: "ai",
     title: "Meeting Intelligence Tracker",
-    tagline:
-      "Extracts decisions and action items from meeting transcripts, and answers questions across meetings with a verified source quote.",
-    tech: ["Python", "OpenAI API", "Structured outputs", "Pinecone", "RAG", "Pydantic", "pytest", "Streamlit"],
+    tech: "Python • OpenAI API • Pinecone • RAG • Streamlit",
+    description:
+      "A RAG system that pulls decisions and action items out of meeting transcripts and answers questions across past meetings, with every answer backed by a verified quote.",
     github: "https://github.com/anula513/meeting-intelligence-tracker",
-    cardPoints: [
-      "Every extracted item carries a quote that code checks against the transcript",
-      "Scored against hand-labeled answer keys with a held-out test set",
-      "Speaker-aware chunking doubled top-1 retrieval on held-out questions",
-    ],
-    metrics: [
-      { value: "0", label: "unverified quotes", note: "in every scored eval run" },
-      { value: "100%", label: "decision precision & recall", note: "held-out set, 4 meetings" },
-      { value: "2/6 → 4/6", label: "top-1 retrieval", note: "held-out, after speaker-aware chunking" },
-      { value: "3/3", label: "unanswerable questions", note: "correctly returned not found" },
-    ],
-    sections: [
+    page: [
       {
-        heading: "The problem",
-        body:
-          "Teams make decisions in meetings and lose track of them. Summaries turn into a wall of text that mixes decisions, discussion, and tasks, and nobody can check what was actually agreed or who owns it.",
-      },
-      {
-        heading: "What it does",
-        list: [
-          "Pulls decisions out as structured records: the decision, its status (final, provisional, unresolved), any condition, the owner, and a source quote",
-          "Lists action items separately from decisions",
-          "Stores transcripts as embeddings in Pinecone so you can ask questions across meetings and get a cited answer",
-          "Returns \"not found\" instead of guessing when the meetings don't contain the answer",
-        ],
-      },
-      {
-        heading: "Built to be trusted, not just demoed",
-        list: [
-          "Owners are only filled in when someone actually takes the task. An invented owner is treated as a failure, because people act on owners.",
-          "Code verifies every source quote really appears in the transcript. Items that fail are flagged, not silently dropped.",
-          "Answer keys were labeled and committed before the model ran on a meeting. The prompt was only tuned on dev meetings.",
-        ],
-      },
-      {
-        heading: "How it was measured",
-        body:
-          "I wrote a labeling guide, hand-labeled answer keys, and a scorer for precision, recall, owner accuracy, and invented owners. Once a test meeting was used to fix the prompt, it moved to dev and I wrote fresh test meetings for the final claim. Retrieval was scored separately with hit@1, hit@3, and hit@5 on a question set plus a held-out set.",
-      },
-      {
-        heading: "What didn't work (yet)",
-        list: [
-          "The fresh held-out run had 1 invented owner, so that check is a FAIL. It's reported, not hidden.",
-          "The eval set is small (14 synthetic meetings), so one error moves the percentages a lot.",
-          "Transcripts are synthetic text. Real meetings and audio would be messier.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "texting-style-clone",
-    group: "ai",
-    status: "In progress",
-    title: "Texting Style Clone",
-    tagline:
-      "A chatbot that replies in my texting style, built three ways to compare which approach actually captures a personal voice.",
-    tech: ["Python", "Prompt engineering", "RAG", "QLoRA fine-tuning", "Hugging Face", "Streamlit"],
-    cardPoints: [
-      "Baseline: prompting with style instructions",
-      "RAG: retrieve real past messages as style memory",
-      "Fine-tune: QLoRA on my own message history",
-    ],
-    sections: [
-      {
-        heading: "The question",
-        body:
-          "When you want a model to sound like a specific person, is a good prompt enough, does retrieving real examples help, or do you need to fine-tune? This project builds all three on the same data and compares them side by side.",
-      },
-      {
-        heading: "The three approaches",
-        list: [
-          "Prompting baseline: a system prompt that describes the style",
-          "RAG style memory: retrieve similar past messages and show them to the model as examples",
-          "QLoRA fine-tune: train a small adapter on my own message history",
-        ],
-      },
-      {
-        heading: "What's coming",
-        body:
-          "A live demo, a write-up of the comparison and its trade-offs (quality, cost, effort), and a post on my Substack.",
-      },
-    ],
-  },
-  {
-    id: "jobnest",
-    group: "build",
-    title: "JobNest",
-    tagline:
-      "A Chrome extension that tracks job applications across LinkedIn, Indeed, Workday, and more, without leaving the page.",
-    tech: ["JavaScript", "Chrome Extensions API (MV3)", "Chrome Storage", "Alarms & Notifications"],
-    github: "https://github.com/anula513/jobnest",
-    images: [
-      { src: "/jobnest-popup.png", alt: "JobNest popup on a job listing" },
-      { src: "/jobnest-dashboard.png", alt: "JobNest dashboard showing tracked jobs" },
-    ],
-    sections: [
-      {
-        heading: "Why I built it",
-        body:
-          "I was losing track of applications scattered across job boards during my own search. JobNest adds a floating Save Job button to any listing, so one click captures the role and tracks it through every stage.",
+        text:
+          "Teams make decisions in meetings and then lose track of them. This app extracts decisions and action items from meeting transcripts and lets you ask questions across past meetings. Every extracted item carries a quote from the transcript, and the code checks that the quote is really there.",
       },
       {
         heading: "Features",
         list: [
-          "Floating Save Job button on LinkedIn, Indeed, Glassdoor, Workday, Lever, Greenhouse, and more",
-          "Status tracking: Saved → Applied → Interviewing → Offer / Rejected",
-          "Deadline reminders with Chrome notifications",
-          "Notes, search, filters, and CSV export",
+          "Decisions extracted with status (final, provisional, unresolved), condition, owner, and source quote",
+          "Action items listed separately from decisions",
+          "Owners only filled in when someone actually takes the task",
+          "Ask questions across meetings and get an answer with a verified quote, or \"not found\"",
         ],
       },
       {
-        heading: "How it works",
+        heading: "Tech Stack",
         list: [
-          "A content script detects job pages and injects the button",
-          "Job data is read from the page and saved locally with Chrome Storage",
-          "A background service worker schedules deadline alarms and fires notifications",
+          "Python",
+          "OpenAI API (structured outputs) and embeddings",
+          "Pinecone vector database",
+          "Pydantic, pytest",
+          "Streamlit",
+        ],
+      },
+      {
+        heading: "How It Works",
+        list: [
+          "Transcripts are parsed and split into chunks by speaker turn",
+          "The model extracts decisions and action items as structured JSON",
+          "Code verifies every source quote appears in the transcript",
+          "Chunks are stored in Pinecone and retrieved to answer questions",
+        ],
+      },
+      {
+        heading: "Results",
+        list: [
+          "Scored against hand-labeled answer keys, with a held-out test set",
+          "0 unverified quotes in every scored eval run",
+          "Speaker-aware chunking improved top-1 retrieval on held-out questions from 2/6 to 4/6",
         ],
       },
     ],
+    links: [{ label: "GitHub Repo", href: "https://github.com/anula513/meeting-intelligence-tracker" }],
+  },
+  {
+    id: "texting-style-clone",
+    title: "Texting Style Clone",
+    status: "In progress",
+    tech: "Python • RAG • QLoRA • Hugging Face",
+    description:
+      "A chatbot that replies in my texting style, comparing a prompting baseline, RAG style memory, and a QLoRA fine-tune.",
+  },
+  {
+    id: "job-market-analytics",
+    title: "Data & AI Job Market Analytics",
+    tech: "Python • PostgreSQL • SQL • Tableau",
+    description:
+      "An end-to-end analytics project that cleans job-market data, stores it in PostgreSQL, analyzes trends with SQL, and presents insights through a Tableau dashboard.",
+    github: "https://github.com/anula513/job-market-analytics",
+    page: [
+      {
+        text:
+          "This project analyzes global salaries for Data Science, AI, and Machine Learning roles using Python, PostgreSQL, SQL, and Tableau.",
+      },
+      {
+        heading: "Pipeline",
+        list: [
+          "Raw CSV dataset",
+          "Python data cleaning",
+          "PostgreSQL storage",
+          "SQL analysis queries",
+          "Tableau dashboard",
+        ],
+      },
+      {
+        heading: "Key Insights",
+        list: [
+          "Executive-level roles earn the highest salaries.",
+          "Machine Learning and Data Science roles dominate the highest-paying jobs.",
+          "Senior-level salaries are significantly higher than entry-level and mid-level roles.",
+        ],
+      },
+      { image: "/dashboard.png", alt: "Dashboard" },
+    ],
+    links: [
+      { label: "GitHub Repo", href: "https://github.com/anula513/job-market-analytics" },
+      { label: "SQL Queries", href: "https://github.com/anula513/job-market-analytics/blob/main/sql/analysis_queries.sql" },
+    ],
+  },
+  {
+    id: "jobnest",
+    title: "🪺 JobNest – Chrome Extension",
+    tech: "JavaScript • Chrome Extensions API • Manifest V3 • Chrome Storage",
+    description:
+      "A Chrome extension that tracks job applications across LinkedIn, Indeed, Workday, and more — with a floating Save Job button, deadline reminders, status tracking, and CSV export.",
+    github: "https://github.com/anula513/jobnest",
+    page: [
+      {
+        text:
+          "JobNest is a Chrome extension I built to solve a real problem I was facing during my own job search — losing track of applications scattered across LinkedIn, Indeed, Workday, and more. It injects a floating \"Save Job\" button on any job listing, letting you capture the role in one click and track it through every stage of the application process, all without leaving the page.",
+      },
+      { image: "/jobnest-popup.png", alt: "JobNest popup on a job listing" },
+      {
+        heading: "Features",
+        list: [
+          "Floating \"Save Job\" button injected on any job listing page",
+          "Works on LinkedIn, Indeed, Glassdoor, Workday, Lever, Greenhouse, and more",
+          "Deadline tracking with Chrome notification reminders",
+          "Status tracking: Saved → Applied → Interviewing → Offer / Rejected",
+          "Notes, search, and filter per job",
+          "Export all jobs to CSV",
+        ],
+      },
+      { image: "/jobnest-dashboard.png", alt: "JobNest dashboard showing tracked jobs" },
+      {
+        heading: "Tech Stack",
+        list: [
+          "JavaScript (Vanilla)",
+          "Chrome Extensions API — Manifest V3",
+          "Chrome Storage API (local persistence)",
+          "Chrome Alarms & Notifications API",
+        ],
+      },
+      {
+        heading: "How It Works",
+        list: [
+          "Content script detects job pages and injects the Save Job button",
+          "Job data is extracted from the DOM and stored locally via Chrome Storage",
+          "Background service worker handles deadline alarms and fires notifications",
+        ],
+      },
+    ],
+    links: [{ label: "GitHub Repo", href: "https://github.com/anula513/jobnest" }],
   },
   {
     id: "codecactus",
-    group: "build",
-    status: "2nd place, hackathon",
     title: "CodeCactus",
-    tagline:
-      "A gamified platform that teaches K-12 students computer science concepts through interactive games and challenges.",
-    tech: ["HTML", "CSS", "JavaScript", "Firebase"],
+    tech: "HTML • CSS • JavaScript • Firebase",
+    description:
+      "A gamified platform that teaches computer science concepts through interactive games and challenges for K-12 students.",
     github: "https://github.com/anula513/code-cactus",
     liveDemo: "https://code-cactus.vercel.app/",
   },
   {
     id: "launchpad",
-    group: "build",
     title: "LaunchPad",
-    tagline:
-      "A web app that helps students track and organize their college application journey, with real-time sync through Firestore.",
-    tech: ["HTML", "CSS", "JavaScript", "Firebase Firestore"],
+    tech: "HTML • CSS • JavaScript • Firebase Firestore",
+    description:
+      "A web app built to help students track and organize their college application journey, with real-time data persistence via Firebase Firestore.",
     github: "https://github.com/anula513/launchpad",
     liveDemo: "https://anula513.github.io/launchpad/",
   },
-  {
-    id: "job-market-analytics",
-    group: "build",
-    title: "Data & AI Job Market Analytics",
-    tagline:
-      "An end-to-end analytics pipeline on global salaries for data, AI, and ML roles, from raw CSV to a Tableau dashboard.",
-    tech: ["Python", "PostgreSQL", "SQL", "Tableau"],
-    github: "https://github.com/anula513/job-market-analytics",
-    images: [{ src: "/dashboard.png", alt: "Tableau salary dashboard" }],
-    sections: [
-      {
-        heading: "Pipeline",
-        list: [
-          "Raw CSV dataset",
-          "Cleaning in Python",
-          "Storage in PostgreSQL",
-          "Analysis with SQL queries",
-          "Tableau dashboard",
-        ],
-      },
-      {
-        heading: "Key insights",
-        list: [
-          "Executive-level roles earn the highest salaries",
-          "Machine learning and data science roles dominate the top-paying jobs",
-          "Senior salaries are well above entry and mid level",
-        ],
-      },
-    ],
-    extraLinks: [
-      {
-        label: "SQL queries",
-        href: "https://github.com/anula513/job-market-analytics/blob/main/sql/analysis_queries.sql",
-      },
-    ],
-  },
 ];
 
-export const skillGroups = [
-  { label: "AI / LLM", items: ["OpenAI API", "RAG", "Embeddings", "Pinecone", "Structured outputs", "LLM evaluation", "Prompt engineering"] },
-  { label: "Languages", items: ["Python", "JavaScript", "Java", "SQL"] },
-  { label: "Web & tools", items: ["React", "Streamlit", "Firebase", "Chrome Extensions", "Git", "pytest"] },
-  { label: "Data", items: ["PostgreSQL", "Pandas", "Tableau"] },
+export const skills = [
+  "HTML", "CSS", "JavaScript", "Python", "Java",
+  "React", "PostgreSQL", "Tableau", "AI/ML",
 ];
 
 export const getProject = (id) => projects.find((p) => p.id === id);
-export const hasCaseStudy = (p) => Boolean(p.sections?.length);
+export const hasPage = (p) => Boolean(p.page?.length);

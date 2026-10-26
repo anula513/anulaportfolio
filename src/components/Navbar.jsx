@@ -6,13 +6,11 @@ export default function Navbar() {
   return (
     <header className="nav">
       <div className="nav-inner">
-        <Link to="/" className="nav-brand">
-          Anula Dinesh
-        </Link>
+        <Link to="/" className="nav-brand">&lt;Anula&gt;</Link>
         <nav className="nav-links" aria-label="Main">
+          <a href="/#ts">Technical Skills</a>
           <a href="/#projects">Projects</a>
-          <a href="/#skills">Skills</a>
-          <a href="/#contact">Contact</a>
+          <a href="/#cm">Contact Me</a>
         </nav>
       </div>
     </header>

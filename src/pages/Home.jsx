@@ -1,140 +1,121 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight, Github, Linkedin } from "lucide-react";
-import { ExtractionDemo, StyleCloneVisual, MetricsVisual } from "../components/Visuals";
-import { projects, skillGroups, hasCaseStudy } from "../data/projects";
+import { projects, skills, hasPage } from "../data/projects";
 
-const aiProjects = projects.filter((p) => p.group === "ai");
-const buildProjects = projects.filter((p) => p.group === "build");
+// ── Carousel ──────────────────────────────────────
+function ProjectCarousel() {
+  const [index, setIndex] = useState(0);
+  const visible = 3;
+  const canPrev = index > 0;
+  const canNext = index + visible < projects.length;
 
-// Each AI project gets its own visual instead of a generic card.
-const visualFor = (p) => {
-  if (p.id === "texting-style-clone") return <StyleCloneVisual />;
-  if (p.metrics) return <MetricsVisual metrics={p.metrics} />;
-  return null;
-};
+  return (
+    <div className="carousel">
+      <button
+        className="carousel-arrow"
+        onClick={() => setIndex((i) => i - 1)}
+        disabled={!canPrev}
+        aria-label="Previous projects"
+      >
+        &#8592;
+      </button>
 
+      <div className="projects-grid">
+        {projects.map((p, i) => (
+          <article
+            className={`project-card ${i < index || i >= index + visible ? "is-off" : ""}`}
+            key={p.id}
+          >
+            <div className="card-top">
+              <h3>{p.title}</h3>
+              {p.status && <span className="badge">{p.status}</span>}
+            </div>
+            <div className="project-tech">{p.tech}</div>
+            <p>{p.description}</p>
+            <div className="project-links">
+              {p.github && (
+                <a className="btn btn--ghost" href={p.github} target="_blank" rel="noreferrer">GitHub</a>
+              )}
+              {hasPage(p) && (
+                <Link className="btn btn--primary" to={`/projects/${p.id}`}>View Project</Link>
+              )}
+              {p.liveDemo && (
+                <a className="btn btn--primary" href={p.liveDemo} target="_blank" rel="noreferrer">Live Demo</a>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <button
+        className="carousel-arrow"
+        onClick={() => setIndex((i) => i + 1)}
+        disabled={!canNext}
+        aria-label="Next projects"
+      >
+        &#8594;
+      </button>
+    </div>
+  );
+}
+
+// ── Home Page ─────────────────────────────────────
 export default function Home() {
   return (
     <main>
-      {/* ── Hero ───────────────────────────── */}
       <section className="hero">
         <div className="container hero-inner">
           <div className="hero-text">
-            <div className="hello">
-              <img src="/me.jpg" alt="" className="avatar" />
-              <span>Anula Dinesh, CS senior at Arizona State</span>
-            </div>
-            <h1>I build AI that shows its receipts.</h1>
-            <p className="lede">
-              My systems don&apos;t just answer. They point to the exact source, flag what
-              they can&apos;t verify, and get measured against real answer keys. Looking for AI
-              Engineer roles after I graduate in May 2027.
+            <h1>Hi, I&apos;m Anula</h1>
+            <h2>Computer Science Student | AI • Data • Software</h2>
+            <p>
+              I&apos;m a senior studying Computer Science at Arizona State University. I&apos;m interested in AI/ML, analytics,
+              and building software, and I enjoy turning ideas into projects through coding. I like exploring new
+              technologies, designing clean interfaces, and building things that are both useful and fun.
             </p>
-            <div className="hero-actions">
-              <a className="btn btn--primary" href="#projects">See projects</a>
-              <a className="btn btn--ghost" href="#contact">Contact me</a>
+          </div>
+          <img src="/me.jpg" alt="Anula" className="hero-photo" />
+        </div>
+      </section>
+
+      <section className="section" id="ts">
+        <div className="container skills-inner">
+          <img
+            src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=900&q=80"
+            alt="Coding"
+            className="skills-image"
+          />
+          <div>
+            <h2 className="section-title">My Skills</h2>
+            <div className="skills-grid">
+              {skills.map((skill) => (
+                <div key={skill} className="skill-card">{skill}</div>
+              ))}
             </div>
           </div>
-          <ExtractionDemo />
         </div>
       </section>
 
-      {/* ── AI projects ────────────────────── */}
       <section className="section" id="projects">
         <div className="container">
-          <h2 className="section-title">AI projects</h2>
-
-          {aiProjects.map((p) => (
-            <article key={p.id} className="feature">
-              <div className="feature-text">
-                <div className="title-row">
-                  <h3>{p.title}</h3>
-                  {p.status && <span className="badge">{p.status}</span>}
-                </div>
-                <p className="feature-tagline">{p.tagline}</p>
-                {p.cardPoints && (
-                  <ul className="points">
-                    {p.cardPoints.map((pt) => <li key={pt}>{pt}</li>)}
-                  </ul>
-                )}
-                <p className="tech-line">{p.tech.join(", ")}</p>
-                <div className="actions">
-                  {hasCaseStudy(p) && (
-                    <Link className="btn btn--primary" to={`/projects/${p.id}`}>Read case study</Link>
-                  )}
-                  {p.github && (
-                    <a className="btn btn--ghost" href={p.github} target="_blank" rel="noreferrer">
-                      <Github size={16} aria-hidden="true" /> Code
-                    </a>
-                  )}
-                </div>
-              </div>
-              <div className="feature-visual">{visualFor(p)}</div>
-            </article>
-          ))}
+          <h2 className="section-title center">Projects</h2>
+          <p className="section-sub center">
+            Here are some of the projects I&apos;ve built across software development,
+            analytics, and interactive learning experiences.
+          </p>
+          <ProjectCarousel />
         </div>
       </section>
 
-      {/* ── Other builds ───────────────────── */}
-      <section className="section section--tight">
+      <section className="section contact" id="cm">
         <div className="container">
-          <h2 className="section-title">Other builds</h2>
-          <ul className="build-list">
-            {buildProjects.map((p) => (
-              <li key={p.id} className="build">
-                <div className="build-main">
-                  <div className="title-row">
-                    <h3>{p.title}</h3>
-                    {p.status && <span className="badge">{p.status}</span>}
-                  </div>
-                  <p>{p.tagline}</p>
-                  <p className="tech-line">{p.tech.join(", ")}</p>
-                </div>
-                <div className="build-links">
-                  {hasCaseStudy(p) && <Link to={`/projects/${p.id}`}>Details</Link>}
-                  {p.github && <a href={p.github} target="_blank" rel="noreferrer">Code</a>}
-                  {p.liveDemo && (
-                    <a href={p.liveDemo} target="_blank" rel="noreferrer">
-                      Live demo <ArrowUpRight size={14} aria-hidden="true" />
-                    </a>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      {/* ── Skills ─────────────────────────── */}
-      <section className="section section--tight" id="skills">
-        <div className="container">
-          <h2 className="section-title">Skills</h2>
-          <dl className="skills">
-            {skillGroups.map((g) => (
-              <div key={g.label} className="skill-row">
-                <dt>{g.label}</dt>
-                <dd>
-                  {g.items.map((s) => <span key={s} className="pill">{s}</span>)}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </section>
-
-      {/* ── Contact ────────────────────────── */}
-      <section className="section contact" id="contact">
-        <div className="container">
-          <h2 className="contact-title">Let&apos;s talk.</h2>
-          <p className="lede">Email is the fastest way to reach me.</p>
-          <a className="contact-email" href="mailto:adinesh5@asu.edu">adinesh5@asu.edu</a>
-          <div className="actions">
+          <h2 className="section-title center">Let&apos;s Connect!</h2>
+          <p className="section-sub center">You can reach me through LinkedIn or email.</p>
+          <div className="contact-links">
             <a className="btn btn--ghost" href="https://www.linkedin.com/in/anula-dinesh-743140335" target="_blank" rel="noreferrer">
-              <Linkedin size={16} aria-hidden="true" /> LinkedIn
+              LinkedIn
             </a>
-            <a className="btn btn--ghost" href="https://github.com/anula513" target="_blank" rel="noreferrer">
-              <Github size={16} aria-hidden="true" /> GitHub
-            </a>
+            <a className="btn btn--primary" href="mailto:adinesh5@asu.edu">adinesh5@asu.edu</a>
           </div>
         </div>
       </section>
