@@ -67,11 +67,12 @@ export default function Home() {
         <div className="container hero-inner">
           <div className="hero-text">
             <h1>Hi, I&apos;m Anula</h1>
-            <h2>Aspiring AI Engineer | Building AI Products People Can Trust</h2>
+            <h2>Computer Science Student | AI Engineering • LLMs • Software</h2>
             <p>
-              I&apos;m a senior studying Computer Science at Arizona State University. I&apos;m interested in AI/ML, analytics,
-              and building software, and I enjoy turning ideas into projects through coding. I like exploring new
-              technologies, designing clean interfaces, and building things that are both useful and fun.
+              I&apos;m a senior studying Computer Science at Arizona State University, graduating in May 2027. I build
+              AI applications with LLMs, RAG, and evaluation, and I&apos;m most interested in how AI systems are
+              designed, tested, and turned into real products. I like working on problems end to end, from figuring
+              out what users actually need to writing the code and measuring the results.
             </p>
           </div>
           <img src="/me.jpg" alt="Anula" className="hero-photo" />
@@ -108,8 +109,8 @@ export default function Home() {
         <div className="container">
           <h2 className="section-title center">Projects</h2>
           <p className="section-sub center">
-            Here are some of the AI systems and products I&apos;ve built, each one starting
-            from a real user problem and measured on whether it actually works.
+            Here are some of the projects I&apos;ve built, from AI and LLM applications
+            to web apps and tools.
           </p>
           <ProjectCarousel />
         </div>
