@@ -175,8 +175,9 @@ export const projects = [
 export const skills = [
   { label: "LLM apps", items: ["OpenAI API", "LangChain", "LangGraph", "LLM Evaluation"] },
   { label: "Retrieval", items: ["RAG", "Embeddings", "Pinecone"] },
+  { label: "Frameworks", items: ["React", "Streamlit", "Pydantic", "pytest", "Firebase"] },
   { label: "Data & tools", items: ["SQL", "PostgreSQL", "Git"] },
-  { label: "Languages", items: ["Python", "Java"] },
+  { label: "Languages", items: ["Python", "Java", "JavaScript", "HTML", "CSS"] },
 ];
 
 export const getProject = (id) => projects.find((p) => p.id === id);
