@@ -67,7 +67,7 @@ export default function Home() {
         <div className="container hero-inner">
           <div className="hero-text">
             <h1>Hi, I&apos;m Anula</h1>
-            <h2>Computer Science Student | AI • Data • Software</h2>
+            <h2>Aspiring AI Engineer | Building AI Products People Can Trust</h2>
             <p>
               I&apos;m a senior studying Computer Science at Arizona State University. I&apos;m interested in AI/ML, analytics,
               and building software, and I enjoy turning ideas into projects through coding. I like exploring new
@@ -108,8 +108,8 @@ export default function Home() {
         <div className="container">
           <h2 className="section-title center">Projects</h2>
           <p className="section-sub center">
-            Here are some of the projects I&apos;ve built across software development,
-            analytics, and interactive learning experiences.
+            Here are some of the AI systems and products I&apos;ve built, each one starting
+            from a real user problem and measured on whether it actually works.
           </p>
           <ProjectCarousel />
         </div>
