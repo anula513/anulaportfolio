@@ -12,9 +12,9 @@ export const projects = [
   {
     id: "meeting-intelligence-tracker",
     title: "Meeting Intelligence Tracker",
-    tech: "Python • OpenAI API • Pinecone • RAG • Streamlit",
+    tech: "Python • OpenAI API • Pinecone • RAG • FastAPI • Streamlit",
     description:
-      "A RAG system that pulls decisions and action items out of meeting transcripts and answers questions across past meetings, with every answer backed by a verified quote.",
+      "A RAG system that pulls decisions and action items out of meeting transcripts and answers questions across past meetings, with every answer backed by a verified quote. Available as a web app and a REST API.",
     github: "https://github.com/anula513/meeting-intelligence-tracker",
     page: [
       {
@@ -29,6 +29,9 @@ export const projects = [
           "Action items listed separately from decisions",
           "Owners only filled in when someone actually takes the task",
           "Ask questions across meetings and get an answer with a verified quote, or \"not found\"",
+          "Filter questions to one meeting and open the full transcript to check the source",
+          "REST API with /health, /ask, and /extract endpoints",
+          "Clear errors when the AI service is busy or returns a bad response, instead of crashing",
         ],
       },
       {
@@ -37,6 +40,7 @@ export const projects = [
           "Python",
           "OpenAI API (structured outputs) and embeddings",
           "Pinecone vector database",
+          "FastAPI and Uvicorn",
           "Pydantic, pytest",
           "Streamlit",
         ],
@@ -48,6 +52,8 @@ export const projects = [
           "The model extracts decisions and action items as structured JSON",
           "Code verifies every source quote appears in the transcript",
           "Chunks are stored in Pinecone and retrieved to answer questions",
+          "FastAPI validates every request and response with Pydantic models",
+          "/extract also returns any quotes that failed verification, so nothing is hidden",
         ],
       },
       {
