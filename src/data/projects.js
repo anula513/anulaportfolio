@@ -62,12 +62,12 @@ export const projects = [
     links: [{ label: "GitHub Repo", href: "https://github.com/anula513/meeting-intelligence-tracker" }],
   },
   {
-    id: "texting-style-clone",
-    title: "Texting Style Clone",
+    id: "fake-review-detector",
+    title: "AI Fake Review Detector",
     status: "In progress",
-    tech: "Python • RAG • QLoRA • Hugging Face",
+    tech: "Python • DistilBERT • scikit-learn • FastAPI • Docker",
     description:
-      "A chatbot that replies in my texting style, comparing a prompting baseline, RAG style memory, and a QLoRA fine-tune.",
+      "Paste a product's reviews and get the real pros and cons, backed by verified quotes, plus flags on reviews that look machine-generated. Built on a fine-tuned DistilBERT classifier and tested on modern LLM-written fakes.",
   },
   {
     id: "job-market-analytics",
