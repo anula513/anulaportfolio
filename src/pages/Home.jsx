@@ -1,61 +1,29 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { projects, skills, hasPage } from "../data/projects";
+import { Github, Linkedin, Mail } from "lucide-react";
+import ProjectMedia from "../components/ProjectMedia";
+import { featured, others, skills } from "../data/projects";
 
-// ── Carousel ──────────────────────────────────────
-function ProjectCarousel() {
-  const [index, setIndex] = useState(0);
-  const visible = 3;
-  const canPrev = index > 0;
-  const canNext = index + visible < projects.length;
+const LINKEDIN = "https://www.linkedin.com/in/anuladinesh";
+const GITHUB = "https://github.com/anula513";
+const EMAIL = "mailto:adinesh5@asu.edu";
 
+// ── Project card ──────────────────────────────────
+// The whole card opens the project page. Featured cards lay out side by side.
+function ProjectCard({ project, wide = false }) {
+  const p = project;
   return (
-    <div className="carousel">
-      <button
-        className="carousel-arrow"
-        onClick={() => setIndex((i) => i - 1)}
-        disabled={!canPrev}
-        aria-label="Previous projects"
-      >
-        &#8592;
-      </button>
-
-      <div className="projects-grid">
-        {projects.map((p, i) => (
-          <article
-            className={`project-card ${i < index || i >= index + visible ? "is-off" : ""}`}
-            key={p.id}
-          >
-            <div className="card-top">
-              <h3>{p.title}</h3>
-              {p.status && <span className="badge">{p.status}</span>}
-            </div>
-            <div className="project-tech">{p.tech}</div>
-            <p>{p.description}</p>
-            <div className="project-links">
-              {p.github && (
-                <a className="btn btn--ghost" href={p.github} target="_blank" rel="noreferrer">GitHub</a>
-              )}
-              {hasPage(p) && (
-                <Link className="btn btn--primary" to={`/projects/${p.id}`}>View Project</Link>
-              )}
-              {p.liveDemo && (
-                <a className="btn btn--primary" href={p.liveDemo} target="_blank" rel="noreferrer">Live Demo</a>
-              )}
-            </div>
-          </article>
-        ))}
+    <Link to={`/projects/${p.id}`} className={`pcard ${wide ? "pcard--wide" : ""}`}>
+      <ProjectMedia project={p} large={wide} />
+      <div className="pcard-body">
+        <div className="title-row">
+          <h3>{p.title}</h3>
+          {p.status && <span className="badge">{p.status}</span>}
+        </div>
+        <p className="pcard-desc">{p.description}</p>
+        <p className="pcard-tech">{p.tech}</p>
+        <span className="pcard-cta">View project</span>
       </div>
-
-      <button
-        className="carousel-arrow"
-        onClick={() => setIndex((i) => i + 1)}
-        disabled={!canNext}
-        aria-label="Next projects"
-      >
-        &#8594;
-      </button>
-    </div>
+    </Link>
   );
 }
 
@@ -74,8 +42,36 @@ export default function Home() {
               designed, tested, and turned into real products. I like working on problems end to end, from figuring
               out what users actually need to writing the code and measuring the results.
             </p>
+            <div className="hero-actions">
+              <a className="btn btn--primary" href="#projects">View Projects</a>
+              <a className="icon-btn" href={GITHUB} target="_blank" rel="noreferrer" aria-label="GitHub">
+                <Github size={20} aria-hidden="true" />
+              </a>
+              <a className="icon-btn" href={LINKEDIN} target="_blank" rel="noreferrer" aria-label="LinkedIn">
+                <Linkedin size={20} aria-hidden="true" />
+              </a>
+              <a className="icon-btn" href={EMAIL} aria-label="Email">
+                <Mail size={20} aria-hidden="true" />
+              </a>
+            </div>
           </div>
-          <img src="/me.jpg" alt="Anula" className="hero-photo" />
+          <img src="/anula-headshot.jpg" alt="Anula Dinesh" className="hero-photo" />
+        </div>
+      </section>
+
+      <section className="section" id="projects">
+        <div className="container">
+          <h2 className="section-title center">Projects</h2>
+          <p className="section-sub center">
+            Here are some of the projects I&apos;ve built, from AI and LLM applications
+            to web apps and tools.
+          </p>
+          <div className="featured">
+            {featured.map((p) => <ProjectCard key={p.id} project={p} wide />)}
+          </div>
+          <div className="pgrid">
+            {others.map((p) => <ProjectCard key={p.id} project={p} />)}
+          </div>
         </div>
       </section>
 
@@ -105,26 +101,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="section" id="projects">
-        <div className="container">
-          <h2 className="section-title center">Projects</h2>
-          <p className="section-sub center">
-            Here are some of the projects I&apos;ve built, from AI and LLM applications
-            to web apps and tools.
-          </p>
-          <ProjectCarousel />
-        </div>
-      </section>
-
       <section className="section contact" id="cm">
         <div className="container">
           <h2 className="section-title center">Let&apos;s Connect!</h2>
           <p className="section-sub center">You can reach me through LinkedIn or email.</p>
           <div className="contact-links">
-            <a className="btn btn--ghost" href="https://www.linkedin.com/in/anula-dinesh-743140335" target="_blank" rel="noreferrer">
+            <a className="btn btn--ghost" href={LINKEDIN} target="_blank" rel="noreferrer">
               LinkedIn
             </a>
-            <a className="btn btn--primary" href="mailto:adinesh5@asu.edu">adinesh5@asu.edu</a>
+            <a className="btn btn--primary" href={EMAIL}>adinesh5@asu.edu</a>
           </div>
         </div>
       </section>

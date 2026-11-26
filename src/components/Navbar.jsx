@@ -8,8 +8,8 @@ export default function Navbar() {
       <div className="nav-inner">
         <Link to="/" className="nav-brand">&lt;Anula&gt;</Link>
         <nav className="nav-links" aria-label="Main">
-          <a href="/#ts">Technical Skills</a>
           <a href="/#projects">Projects</a>
+          <a href="/#ts">Technical Skills</a>
           <a href="/#cm">Contact Me</a>
         </nav>
       </div>

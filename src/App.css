@@ -169,12 +169,37 @@
 
 .hero-photo {
   justify-self: center;
-  width: 360px;
-  height: 360px;
+  width: min(360px, 100%);
+  aspect-ratio: 4 / 5;
   object-fit: cover;
+  object-position: center 15%;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+  box-shadow: 18px 18px 0 -1px var(--surface-2), 18px 18px 0 0 var(--pink), 0 40px 100px -20px var(--pink-glow);
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  border: 3px solid var(--pink);
-  box-shadow: 0 0 0 10px var(--black), 0 0 0 11px var(--line), 0 30px 90px -10px var(--pink-glow);
+  border: 1px solid var(--line);
+  color: var(--text);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.icon-btn:hover {
+  border-color: var(--pink);
+  color: var(--pink-soft);
 }
 
 /* ── Skills stack ───────────────────────────────── */
@@ -240,96 +265,194 @@
   color: var(--black);
 }
 
-/* ── Projects carousel ──────────────────────────── */
-.carousel {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+/* ── Projects ───────────────────────────────────── */
+/* Featured: big screenshot left, text right. Others: a 2-column grid. */
+.featured {
+  display: grid;
+  gap: 28px;
+  margin-bottom: 28px;
 }
 
-.carousel-arrow {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 18px 18px 24px;
   background: var(--surface);
-  color: var(--text);
-  font-size: 1.2rem;
-  cursor: pointer;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.pcard:hover {
+  border-color: var(--pink);
+  transform: translateY(-4px);
+}
+
+.pcard--wide {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  align-items: center;
+  gap: 36px;
+  padding: 20px 36px 20px 20px;
+}
+
+.pcard-body {
+  padding: 0 8px;
+}
+
+.pcard h3 {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.pcard--wide h3 {
+  font-size: clamp(1.7rem, 2.6vw, 2.1rem);
+}
+
+.pcard-desc {
+  color: var(--muted);
+  margin: 12px 0 14px;
+}
+
+.pcard-tech {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--pink-soft);
+  margin: 0 0 20px;
+}
+
+.pcard-cta {
+  display: inline-flex;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid var(--line);
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
-.carousel-arrow:hover:not(:disabled) {
+.pcard:hover .pcard-cta {
   background: var(--pink);
   border-color: var(--pink);
   color: var(--black);
 }
 
-.carousel-arrow:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-
-.projects-grid {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
-}
-
-.project-card {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  transition: border-color 0.2s, transform 0.2s;
-}
-
-.project-card:hover {
-  border-color: var(--pink);
-  transform: translateY(-4px);
-}
-
-.card-top {
+.title-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.project-card h3 {
-  font-size: 1.35rem;
-  margin: 0;
+/* Screenshot in a browser-window frame */
+.media {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0d070b;
+  border: 1px solid var(--line);
 }
 
-.project-tech {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--pink-soft);
-  margin: 12px 0;
-}
-
-.project-card p {
-  color: var(--muted);
-  margin: 0 0 20px;
-}
-
-.project-links {
+.media-bar {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: auto; /* keeps buttons at the bottom of each card */
+  gap: 6px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
 }
 
-/* Cards outside the carousel window are hidden on wide screens only;
-   on phones every card is shown stacked. */
-@media (min-width: 961px) {
-  .project-card.is-off {
-    display: none;
-  }
+.media-bar span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--line);
+}
+
+.media-frame {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.media-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.5s ease;
+}
+
+.pcard:hover .media-frame img {
+  transform: scale(1.03);
+}
+
+/* On project pages, show the whole screenshot instead of cropping it */
+.page .media--large .media-frame {
+  aspect-ratio: auto;
+}
+
+.page .media--large .media-frame img {
+  height: auto;
+}
+
+.page .media--large .media-concept {
+  aspect-ratio: 16 / 9;
+}
+
+/* Title tile for projects without a screenshot yet */
+.media-concept {
+  height: 100%;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 18px;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 40%, var(--pink-glow), transparent 70%),
+    #0d070b;
+}
+
+.concept-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: min(440px, 100%);
+  padding: 14px 20px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--pink);
+  font-size: clamp(0.85rem, 1.6vw, 1.05rem);
+  box-shadow: 0 10px 40px -10px var(--pink-glow);
+}
+
+.concept-icon {
+  color: var(--pink);
+  font-size: 1.3em;
+  line-height: 1;
+}
+
+.concept-caret {
+  width: 2px;
+  height: 1.2em;
+  margin-left: -8px;
+  background: var(--pink);
+  animation: blink 1.1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.concept-note {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 /* ── Contact ────────────────────────────────────── */
@@ -351,77 +474,109 @@
 /* ── Project pages ──────────────────────────────── */
 .page {
   padding-top: 40px;
-  padding-bottom: 96px;
-  max-width: 960px;
+  padding-bottom: 112px;
+  max-width: 1040px;
 }
 
 .back-link {
   display: inline-block;
   color: var(--muted);
   text-decoration: none;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 
 .back-link:hover {
   color: var(--pink-soft);
 }
 
-.project-panel {
-  background: var(--surface);
+.page-head {
+  margin-bottom: 40px;
+}
+
+.page-title {
+  font-size: clamp(2.3rem, 5.5vw, 3.75rem);
+  margin: 0;
+}
+
+.page-lede {
+  font-size: 1.15rem;
+  color: var(--muted);
+  max-width: 40em;
+  margin: 18px 0 22px;
+}
+
+.chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+
+.chip {
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 999px;
   border: 1px solid var(--line);
-  border-radius: 24px;
-  padding: 40px;
+  background: var(--surface);
 }
 
-.project-panel h1 {
-  font-size: clamp(2.2rem, 5vw, 3.25rem);
-  margin: 0 0 20px;
+.page-links {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 28px;
 }
 
-.project-panel h3 {
-  font-size: 1.4rem;
-  margin: 36px 0 12px;
+.page-body {
+  max-width: 760px;
+  margin: 56px auto 0;
 }
 
-.project-panel p,
-.project-panel li {
-  color: #d9c9d2;
-  max-width: 44em;
+.page-intro {
+  font-size: 1.125rem;
+  color: #e6d8e0;
+  margin: 0;
 }
 
-.project-panel ul {
+.page-body section {
+  margin-top: 44px;
+}
+
+.page-body h2 {
+  font-size: 1.6rem;
+  margin: 0 0 14px;
+}
+
+.page-body ul {
   padding-left: 20px;
   margin: 0;
 }
 
-.project-panel li {
-  margin-bottom: 8px;
+.page-body li {
+  color: #d9c9d2;
+  margin-bottom: 10px;
 }
 
-.project-panel li::marker {
+.page-body li::marker {
   color: var(--pink);
-}
-
-.project-panel .project-links {
-  margin-top: 36px;
 }
 
 .shot {
   width: 100%;
-  margin-top: 28px;
+  margin-top: 44px;
   border-radius: 16px;
   border: 1px solid var(--line);
 }
 
 /* ── Responsive ─────────────────────────────────── */
 @media (max-width: 960px) {
-  .projects-grid {
+  .pcard--wide {
     grid-template-columns: 1fr;
-  }
-
-  /* On small screens show all cards stacked; arrows aren't needed */
-  .carousel-arrow {
-    display: none;
+    gap: 22px;
+    padding: 18px 18px 24px;
   }
 }
 
@@ -437,7 +592,10 @@
   .hero-photo {
     order: -1;
     width: 220px;
-    height: 220px;
+  }
+
+  .pgrid {
+    grid-template-columns: 1fr;
   }
 
   .section {
@@ -467,7 +625,13 @@
     padding: 16px;
   }
 
-  .project-panel {
-    padding: 24px 20px;
+  .pgrid,
+  .featured {
+    gap: 20px;
+  }
+
+  .pcard,
+  .pcard--wide {
+    padding: 12px 12px 20px;
   }
 }
