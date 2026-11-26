@@ -330,6 +330,58 @@
   margin: 0 0 20px;
 }
 
+.pcard {
+  position: relative;
+}
+
+.pcard-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Stretch the title link over the whole card */
+.pcard-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.pcard-link:focus-visible {
+  outline: none;
+}
+
+.pcard:has(.pcard-link:focus-visible) {
+  outline: 2px solid var(--pink);
+  outline-offset: 3px;
+}
+
+.pcard-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pcard-demo {
+  position: relative;
+  z-index: 1; /* above the stretched link */
+  display: inline-flex;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--black);
+  background: var(--pink);
+  border: 1px solid var(--pink);
+  transition: background 0.15s;
+}
+
+.pcard-demo:hover {
+  background: var(--pink-soft);
+  border-color: var(--pink-soft);
+}
+
 .pcard-cta {
   display: inline-flex;
   padding: 9px 18px;
@@ -341,9 +393,8 @@
 }
 
 .pcard:hover .pcard-cta {
-  background: var(--pink);
   border-color: var(--pink);
-  color: var(--black);
+  color: var(--pink-soft);
 }
 
 .title-row {

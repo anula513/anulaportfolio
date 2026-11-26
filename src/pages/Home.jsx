@@ -11,19 +11,31 @@ const EMAIL = "mailto:adinesh5@asu.edu";
 // The whole card opens the project page. Featured cards lay out side by side.
 function ProjectCard({ project, wide = false }) {
   const p = project;
+  // The title link stretches over the whole card (see .pcard-link::after in
+  // App.css), so clicking anywhere opens the project page. The Live Demo
+  // button sits above that layer so it opens the demo instead.
   return (
-    <Link to={`/projects/${p.id}`} className={`pcard ${wide ? "pcard--wide" : ""}`}>
+    <article className={`pcard ${wide ? "pcard--wide" : ""}`}>
       <ProjectMedia project={p} large={wide} />
       <div className="pcard-body">
         <div className="title-row">
-          <h3>{p.title}</h3>
+          <h3>
+            <Link to={`/projects/${p.id}`} className="pcard-link">{p.title}</Link>
+          </h3>
           {p.status && <span className="badge">{p.status}</span>}
         </div>
         <p className="pcard-desc">{p.description}</p>
         <p className="pcard-tech">{p.tech}</p>
-        <span className="pcard-cta">View project</span>
+        <div className="pcard-actions">
+          <span className="pcard-cta" aria-hidden="true">View project</span>
+          {p.liveDemo && (
+            <a className="pcard-demo" href={p.liveDemo} target="_blank" rel="noreferrer">
+              Live Demo ↗
+            </a>
+          )}
+        </div>
       </div>
-    </Link>
+    </article>
   );
 }
 
